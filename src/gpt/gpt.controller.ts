@@ -6,7 +6,7 @@ import { OrtographyDto } from './dtos';
 export class GptController {
   constructor(private readonly gptService: GptService) {}
 
-  @Post('ortography-check')
+  @Post('orthography-check')
   ortographyCheck(@Body() ortographyDto: OrtographyDto) {
     return this.gptService.ortographyCheck(ortographyDto);
   }
