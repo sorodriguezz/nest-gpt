@@ -47,7 +47,14 @@ export class GptController {
   }
 
   @Post('text-to-audio')
-  textToAudio(@Body() textToAudioDto: TextToAudioDto) {
-    return this.gptService.textToAudio(textToAudioDto);
+  async textToAudio(
+    @Res() res: Response,
+    @Body() textToAudioDto: TextToAudioDto,
+  ) {
+    const filePath = await this.gptService.textToAudio(textToAudioDto);
+
+    res.setHeader('Content-Type', 'audio/mp3');
+    res.status(HttpStatus.OK);
+    res.sendFile(filePath);
   }
 }
