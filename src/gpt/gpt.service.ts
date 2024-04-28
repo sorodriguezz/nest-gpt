@@ -2,6 +2,7 @@ import { ImageGenerationDto } from './dtos/image-generation.dto';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import {
   audioToTextUseCase,
+  imageVariationUseCase,
   ortographyCheckUseCase,
   prosConsDiscusserStreamUseCase,
   prosConsDiscusserUseCase,
@@ -9,6 +10,7 @@ import {
   translateUseCase,
 } from './use-cases';
 import {
+  ImageVariationDto,
   OrtographyDto,
   ProsConsDiscusserDto,
   TextToAudioDto,
@@ -65,5 +67,22 @@ export class GptService {
 
   async imageGeneration(imageGenerationDto: ImageGenerationDto) {
     return await imageGenerationUseCase(this.openai, { ...imageGenerationDto });
+  }
+
+  async getImageGeneration(fileName: string) {
+    const filePath = path.resolve(
+      __dirname,
+      '../../generated/images/',
+      fileName,
+    );
+    const wasFound = fs.existsSync(filePath);
+
+    if (!wasFound) throw new NotFoundException(`File ${fileName} not found`);
+
+    return filePath;
+  }
+
+  async imageVariation({ baseImage }: ImageVariationDto) {
+    return await imageVariationUseCase(this.openai, { baseImage });
   }
 }
