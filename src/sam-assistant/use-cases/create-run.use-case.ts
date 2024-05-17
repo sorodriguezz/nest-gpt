@@ -14,6 +14,5 @@ export const createRunUseCase = async (openai: OpenAI, options: Options) => {
     // instructions: // sobre escribe el asistente
   });
 
-  console.log({ run });
   return run;
 };

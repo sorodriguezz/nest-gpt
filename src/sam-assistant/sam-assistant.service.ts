@@ -26,8 +26,6 @@ export class SamAssistantService {
       threadId,
     });
 
-    console.log(threadId);
-
     const run = await createRunUseCase(this.openai, { threadId });
 
     await checkCompleteStatusUseCase(this.openai, {
